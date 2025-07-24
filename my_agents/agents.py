@@ -3,13 +3,13 @@
 # import os
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from agents import Agent, tool, Runner
+from agents import Agent, function_tool, Runner
 from tools.tools import ExpenseLookupTool
 from models.model import UserQuery, SpendingSummary
 from llm7config import config
 
 # Tool decorated for LLM tool use (even though it's hardcoded/mock for now)
-@tool
+@function_tool
 def summarize_budget(summary: SpendingSummary) -> str:
     """Summarizes user's budget performance and offers advice."""
     overspent = []
