@@ -1,10 +1,10 @@
 # SpendWise 🔥 - Streamlit Frontend (app.py)
 # --------------------------------------------------
 import streamlit as st
-from tools import ExpenseLookupTool
-from agents import route_query
+from tools.tools import ExpenseLookupTool
+from my_agents.agents import route_query
 from guardrails import check_input_guardrail, check_output_guardrail
-from model import SpendingSummary, UserQuery
+from models.model import SpendingSummary, UserQuery
 import pandas as pd
 import random
 
