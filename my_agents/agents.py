@@ -3,14 +3,14 @@
 # import os
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from agents import Agent, function_tool, Runner
+from agents import Agent, function_tool, Runner, RunContextWrapper
 from tools.tools import ExpenseLookupTool
 from models.model import UserQuery, SpendingSummary
 from llm7config import config
 
 # Tool decorated for LLM tool use (even though it's hardcoded/mock for now)
 @function_tool
-def summarize_budget(summary: SpendingSummary) -> str:
+def summarize_budget( summary: SpendingSummary) -> str:
     """Summarizes user's budget performance and offers advice."""
     overspent = []
     for category, spent in summary.actuals.items():
@@ -34,11 +34,13 @@ BudgetAdvisor = Agent(
 runner = Runner(BudgetAdvisor)
 
 # Function to route the query to the agent
+
 def route_query(user_input: UserQuery) -> str:
     # Run the agent with the summary as tool input
     result = runner.run(
+        BudgetAdvisor,
         input=user_input.query,
-        tools={"summarize_budget": {"summary": user_input.context}},
-        stream=False
+        tools=[summarize_budget]
+        
     )
     return result.output
