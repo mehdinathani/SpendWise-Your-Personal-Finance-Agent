@@ -1,11 +1,10 @@
 # main.py
 
-import uvicorn
-from fastapi import FastAPI
 from pydantic import BaseModel
-from agents.agents import run_multi_agent_advice
+from agents import Runner, RunConfig
+from llm7config import config
+from my_agents.agents import BudgetAdvisor
 
-app = FastAPI()
 
 # ---- Request/Response Models ---- #
 class BudgetRequest(BaseModel):
@@ -16,13 +15,25 @@ class AdviceResponse(BaseModel):
     response: str
 
 
-@app.post("/get-advice", response_model=AdviceResponse)
-def get_advice(request: BudgetRequest):
-    response_text = run_multi_agent_advice(
-        user_query=request.user_query,
-        budgets=request.budgets
+# @app.post("/get-advice", response_model=AdviceResponse)
+# def get_advice(request: BudgetRequest):
+#     response_text = run_multi_agent_advice(
+#         user_query=request.user_query,
+#         budgets=request.budgets
+#     )
+#     return {"response": response_text}
+
+
+async def main():
+    result = Runner.run_sync(
+        starting_agent= BudgetAdvisor,
+        input= "Buy a zinger burger",
+        run_config=config
+
     )
-    return {"response": response_text}
+    
+
+
 
 
 if __name__ == "__main__":

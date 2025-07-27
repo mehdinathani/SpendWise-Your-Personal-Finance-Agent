@@ -10,7 +10,7 @@ from llm7config import config
 
 # Tool decorated for LLM tool use (even though it's hardcoded/mock for now)
 @function_tool
-def summarize_budget( summary: SpendingSummary) -> str:
+def summarize_budget(summary: SpendingSummary) -> str:
     """Summarizes user's budget performance and offers advice."""
     overspent = []
     for category, spent in summary.actuals.items():
