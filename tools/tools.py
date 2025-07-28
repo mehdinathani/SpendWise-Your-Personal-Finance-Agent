@@ -1,14 +1,14 @@
 # tools/tools.py
 
 import random
-from models.model import SpendingSummary
+from models.model import BudgetContext
 
 class ExpenseLookupTool:
     """
     Mock expense retrieval tool.
     In real scenario, this would query a DB or data source.
     """
-    def run(self, budgets: dict, actuals: dict = None) -> SpendingSummary:
+    def run(self, budgets: dict, actuals: dict = None) -> BudgetContext:
         # Simulate actuals if not passed
         if actuals is None:
             actuals = {
@@ -16,7 +16,7 @@ class ExpenseLookupTool:
                 for k, v in budgets.items()
             }
         
-        return SpendingSummary(
+        return BudgetContext(
             budgets=budgets,
             actuals=actuals
         )
