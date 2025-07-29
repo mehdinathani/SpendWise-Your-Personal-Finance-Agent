@@ -15,6 +15,7 @@ async def analyze_spending(wrapper: RunContextWrapper[BudgetContext]) -> str:
     ctx = wrapper.context
     food_budget = ctx.budgets.get("Food", 0)
     food_actual = ctx.actuals.get("Food", 0)
+    print("analyze_spending tool called")
 
     if food_actual > food_budget:
         return f"You are overspending on Food! Budget: {food_budget}, Actual: {food_actual}"
@@ -25,8 +26,7 @@ async def analyze_spending(wrapper: RunContextWrapper[BudgetContext]) -> str:
 BudgetAdvisor = Agent(
     name="Budget Advisor Agent",
     tools=[analyze_spending],
-    instructions="""You are a Gen-Z friendly financial coach. Be helpful, concise, and informal.
-                    You are given user spending data. Provide smart and empathetic advice."""
+    instructions=f"You are a Gen-Z friendly financial coach. Be helpful, concise, and informal. You are given user spending data. Provide smart and empathetic advice using analyze_spending tool."
 )
 
 

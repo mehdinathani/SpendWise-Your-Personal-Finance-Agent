@@ -14,12 +14,13 @@ async def main():
 
     result = await Runner.run(
         starting_agent=BudgetAdvisor,
-        input="how much budget i have for food, check my budget from context",
+        input="Please use the analyze_spending tool to check if I am over or under my budget based on the given context.",
         context=context,
         run_config=config
     )
 
     print(result.final_output)
+    print("Last agent used:", result.last_agent.name) # Print agent name for clarity
 
 if __name__ == "__main__":
     asyncio.run(main())
