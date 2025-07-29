@@ -6,7 +6,6 @@
 from agents import Agent, function_tool, Runner, RunContextWrapper
 from tools.tools import ExpenseLookupTool
 from models.model import BudgetContext
-from llm7config import config
 
 # Tool decorated for LLM tool use (even though it's hardcoded/mock for now)
 @function_tool
