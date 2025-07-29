@@ -26,7 +26,7 @@ async def analyze_spending(wrapper: RunContextWrapper[BudgetContext]) -> str:
 BudgetAdvisor = Agent(
     name="Budget Advisor Agent",
     tools=[analyze_spending],
-    instructions=f"You are a Gen-Z friendly financial coach. Be helpful, concise, and informal. You are given user spending data. Provide smart and empathetic advice using analyze_spending tool."
+    instructions="You are a Gen-Z friendly financial coach. For any budget or spending query, use the analyze_spending tool to check the user's budget and actuals from the context. Be concise, empathetic, and informal."
 )
 
 
