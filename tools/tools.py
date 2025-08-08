@@ -1,7 +1,17 @@
 # tools/tools.py
 
 import random
+from typing import Dict
+
+from agents import function_tool, RunContextWrapper
+from pydantic import BaseModel, Field
 from models.model import BudgetContext
+
+
+class SpendingAnalysisInput(BaseModel):
+    budgets: Dict[str, float] = Field(..., description="A dictionary of budget categories and amounts.")
+    actuals: Dict[str, float] = Field(..., description="A dictionary of actual spending categories and amounts.")
+
 
 class ExpenseLookupTool:
     """
@@ -20,3 +30,18 @@ class ExpenseLookupTool:
             budgets=budgets,
             actuals=actuals
         )
+
+@function_tool
+async def analyze_spending(wrapper : RunContextWrapper[BudgetContext]) -> str:
+    """Provide advice based on user's budget and actuals."""
+    print("analyze_spending tool called with Pydantic model")
+    ctx = wrapper.context
+
+    food_budget = ctx.budgets.get("Food", 0)
+    food_actual = ctx.actuals.get("Food", 0)
+
+    if food_actual > food_budget:
+        return f"You are overspending on Food! Budget: {food_budget}, Actual: {food_actual}"
+    elif food_actual < food_budget:
+        return f"Great job! You are under budget on Food. Budget: {food_budget}, Actual: {food_actual}"
+    return "Your food spending is exactly on budget."
